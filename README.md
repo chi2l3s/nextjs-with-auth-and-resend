@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Шаблон Next.js с аутентификацией и отправкой email
 
-## Getting Started
+Современный стартовый шаблон для Next.js, построенный с использованием **NextAuth.js**, **Resend**, **Shadcn/UI**, **React Hook Form** и кастомных API-маршрутов аутентификации. Этот шаблон предоставляет надежную основу для создания безопасных, масштабируемых веб-приложений с поддержкой аутентификации, отправки email и красивым интерфейсом.
 
-First, run the development server:
+## Возможности
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Аутентификация**: Безопасная аутентификация пользователей через NextAuth.js с поддержкой различных провайдеров (Google, GitHub, email/пароль).
+- **Отправка email**: Удобная отправка транзакционных писем с помощью Resend.
+- **Обработка форм**: Надежные и типобезопасные формы с React Hook Form.
+- **UI-компоненты**: Стильные, доступные и настраиваемые компоненты от Shadcn/UI.
+- **API-маршруты**: Кастомные маршруты для аутентификации и серверной логики.
+- **TypeScript**: Полная поддержка типизации для лучшего опыта разработки.
+- **Адаптивный дизайн**: Мобильная ориентация и адаптивная верстка.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Требования
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Перед началом убедитесь, что у вас установлены:
+- **Node.js** (версия 18 или выше)
+- **npm** или **yarn**
+- База данных (например, PostgreSQL, MySQL или MongoDB, в зависимости от конфигурации)
+- Аккаунт Resend для получения API-ключа
+- Аккаунт провайдера аутентификации (например, Google, GitHub), если используются сторонние провайдеры
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Установка
 
-## Learn More
+1. **Клонируйте репозиторий**:
+   ```bash
+   npx create-next-app@latest --example "https://github.com/chi2l3s/nextjs-with-auth-and-resend" my-project
+   cd my-project
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. **Установите зависимости**:
+   ```bash
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Настройте переменные окружения**:
+   Создайте файл `.env` в корне проекта и добавьте следующие переменные:
+   ```env
+   DATABASE_URL="ваш_URL_базы_данных"
+   RESEND_API_KEY="ваш_ключ_Resend"
+   NEXTAUTH_SECRET="ваш_секретный_ключ"
+   NEXT_PUBLIC_API_URL="http://localhost:3000"
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   - `DATABASE_URL`: URL для подключения к базе данных (например, PostgreSQL).
+   - `RESEND_API_KEY`: Ключ API от Resend для отправки email.
+   - `NEXTAUTH_SECRET`: Секретный ключ для NextAuth (сгенерируйте с помощью `openssl rand -base64 32`).
+   - `NEXT_PUBLIC_API_URL`: Базовый URL вашего приложения (по умолчанию `http://localhost:3000`).
 
-## Deploy on Vercel
+4. **Настройте провайдеры аутентификации** (если используются):
+   - Для Google/GitHub добавьте их ключи в `.env` (например, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`).
+   - Инструкции по получению ключей см. в документации [NextAuth.js](https://next-auth.js.org/).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Запуск приложения
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Запустите сервер разработки:
+   ```bash
+   npm run dev
+   ```
+
+2. Откройте браузер и перейдите по адресу `http://localhost:3000`.
+
+## Использование
+
+1. **Регистрация/вход**:
+   - Используйте модальное окно `AuthModal.tsx`
+   - Используйте форму для входа через email/пароль или сторонние провайдеры (Google, GitHub).
+   - Формы используют React Hook Form для валидации и удобной обработки данных.
+
+2. **Отправка email**:
+   - После регистрации или других действий (например, сброса пароля) шаблон отправляет email через Resend.
+   - Проверьте настройки Resend и убедитесь, что `RESEND_API_KEY` корректен.
+
+3. **Кастомизация UI**:
+   - Компоненты Shadcn/UI находятся в папке `components/ui`.
+   - Используйте их для создания новых страниц или модификации существующих.
+
+## Вклад в проект
+
+Мы приветствуем любые улучшения! Чтобы внести свой вклад:
+1. Сделайте форк репозитория.
+2. Создайте новую ветку (`git checkout -b feature/имя-ветки`).
+3. Внесите изменения и закоммитьте (`git commit -m "описание изменений"`).
+4. Отправьте изменения в ваш форк (`git push origin feature/имя-ветки`).
+5. Создайте Pull Request в основной репозиторий.
+
+Пожалуйста, следуйте [Code of Conduct](CODE_OF_CONDUCT.md) и придерживайтесь стиля кода проекта.
+
+## Лицензия
+
+Этот проект распространяется под лицензией [MIT](LICENSE). Вы можете свободно использовать, изменять и распространять код в соответствии с условиями лицензии.
+
+---
+
+Если у вас есть вопросы или предложения, создайте issue в репозитории или свяжитесь с нами через [email@example.com](mailto:amixolplex@gmail.com). Удачной разработки!
